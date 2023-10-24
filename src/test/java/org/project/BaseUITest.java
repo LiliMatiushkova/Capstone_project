@@ -6,7 +6,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.project.pageobject.pages.HomePage;
 import org.project.pageobject.pages.StartPage;
 
-public class BaseTest {
+public class BaseUITest {
     public WebDriver driver;
 
     public void setUp() {

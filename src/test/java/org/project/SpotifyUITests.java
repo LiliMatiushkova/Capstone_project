@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
-public class SpotifyUITests extends BaseTest {
+public class SpotifyUITests extends BaseUITest {
     @BeforeMethod
     public void setUpDriver() {
         setUp();
