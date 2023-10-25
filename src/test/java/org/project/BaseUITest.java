@@ -39,5 +39,10 @@ public class BaseUITest {
                 .addSongToPlaylist(trackName, playlistName)
                 .openPlaylistWithAddedSong();
     }
-
+    public void deletePlaylist() {
+        HomePage homePage = new HomePage(driver);
+        homePage
+                .selectDeleteOptionFromContextMenu("Delete")
+                .clickDeleteInConfirmationPopup();
+    }
 }

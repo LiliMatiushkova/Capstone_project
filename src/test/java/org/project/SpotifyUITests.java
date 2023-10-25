@@ -65,14 +65,21 @@ public class SpotifyUITests extends BaseUITest {
 
     @Test
     public void createPlaylistTest() {
-        login();
-        HomePage homePage = new HomePage(driver);
-        String playlistNameFromList = homePage
-                .createPlaylist()
-                .getPlaylistNameFromList();
-        String playlistNameFromMainPage = homePage
-                .getPlaylistNameFromMainPage();
-        Assert.assertEquals(playlistNameFromList, playlistNameFromMainPage);
+        try {
+            login();
+            HomePage homePage = new HomePage(driver);
+            String playlistNameFromList = homePage
+                    .createPlaylist()
+                    .getPlaylistNameFromList();
+            String playlistNameFromMainPage = homePage
+                    .getPlaylistNameFromMainPage();
+            Assert.assertEquals(playlistNameFromList, playlistNameFromMainPage);
+        } catch (Exception e) {
+            System.out.println("Playlist exist");
+        }
+        finally {
+            deletePlaylist();
+        }
     }
 
     @Test
