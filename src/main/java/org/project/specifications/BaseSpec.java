@@ -11,9 +11,7 @@ public class BaseSpec {
     protected static final String BASE_URL = "https://api.spotify.com/v1/";
 
     protected RequestSpecBuilder baseRequestBuilder = new RequestSpecBuilder()
-            .setBaseUri(BASE_URL)
-            .setContentType(ContentType.JSON)
-            .addQueryParams(Authentication.getAuthenticationParameters());
+            .setBaseUri(BASE_URL);
 
     public ResponseSpecification getResponseSpecCheckCreated() {
         return new ResponseSpecBuilder()
