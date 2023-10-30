@@ -6,7 +6,6 @@ import org.project.pageobject.pages.LoginPage;
 import org.project.pageobject.pages.PlaylistPage;
 import org.project.pageobject.pages.StartPage;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -18,10 +17,10 @@ public class SpotifyUITests extends BaseUITest {
     public void setUpDriver() {
         setUp();
     }
-    @AfterMethod
+    /*@AfterMethod
     public void closeDriver() {
         close();
-    }
+    } */
 
     @Test
     public void spotifyLoginWithEmptyCredentialsTest() {
@@ -56,7 +55,7 @@ public class SpotifyUITests extends BaseUITest {
         StartPage startPage = new StartPage(driver);
         String givenUserInfoText = startPage
                 .openLoginPage()
-                .typeCredentials("lilia_0801@ukr.net", "Test12345")
+                .typeCredentials(username, password)
                 .successLogin()
                 .openProfileModule("Profile")
                 .getUserInfoText();
@@ -98,17 +97,17 @@ public class SpotifyUITests extends BaseUITest {
 
     @Test
     public void searchAndAddToPlaylistTest() {
-        String trackToAdd = "I Will Always Love You";
+        String trackName = "I Will Always Love You";
         login();
         HomePage homePage = new HomePage(driver);
         String nameOfAddedTrackInPlaylist = homePage
                 .createNewPlaylist("Create a new playlist")
                 .searchForSong("Whitney Elizabeth Houston")
                 .filterForSongs()
-                .addSongToPlaylist(trackToAdd, "My Playlist")
+                .addSongToPlaylist(trackName, "My Playlist")
                 .openPlaylistWithAddedSong()
-                .getNameOfAddedTrack();
-        Assert.assertEquals(nameOfAddedTrackInPlaylist, trackToAdd);
+                .getNameOfAddedTrack(trackName);
+        Assert.assertEquals(nameOfAddedTrackInPlaylist, trackName);
     }
 
     @Test
@@ -120,7 +119,7 @@ public class SpotifyUITests extends BaseUITest {
         PlaylistPage playlistPage = new PlaylistPage(driver);
         List<WebElement> listOfSongsAddedToPlaylist = playlistPage
                 .removeTrackFromPlaylist(trackName)
-                .getListOfSongs();
+                .getAllSongsFromPlaylist();
         Assert.assertFalse(listOfSongsAddedToPlaylist.contains(trackName));
     }
 

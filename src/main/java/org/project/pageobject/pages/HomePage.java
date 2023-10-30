@@ -38,6 +38,8 @@ public class HomePage extends BasePage {
     private WebElement deleteButton;
     @FindBy(xpath = "//div[@class=\"notistack-CollapseWrapper\"]//div/span[contains(text(),'Removed from Your Library.')]")
     private WebElement removedFromYourLibrarySnackbar;
+    private String listOfPlaylists = "//ul[@aria-label=\"Your Library\"]//li[@role=\"listitem\" and @draggable]";
+
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -103,4 +105,11 @@ public class HomePage extends BasePage {
         waitForElements(removedFromYourLibrarySnackbar);
         return removedFromYourLibrarySnackbar.getText();
     }
+    public WebElement getPlaylistFromList() {
+        List<WebElement> playlistsList = driver.findElements(By.xpath(listOfPlaylists));
+        return waitForElements(playlistsList
+                .stream()
+                .findFirst().get());
+    }
+
 }

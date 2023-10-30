@@ -11,25 +11,29 @@ import java.util.List;
 
 public class SearchPage extends BasePage {
 
-    @FindBy(xpath = "//div[@data-testid=\"tracklist-row\"]//div[contains(text(),'I Will Always Love You')]")
-    private WebElement songToAdd;
+   // @FindBy(xpath = "//div[@data-testid=\"tracklist-row\"]//div[contains(text(),'I Will Always Love You')]")
+  //  private WebElement songToAdd;
     @FindBy(xpath = "//div[contains(@style,'context-menu-submenu')]//li/button/span[contains(text(),'My Playlist #1')]")
     private WebElement existingPlaylist;
     private String subMenuItems = "//div[contains(@style,'context-menu-submenu')]//li/button/span";
     @FindBy(xpath = "//div[@role=\"presentation\"]//button//span[contains(text(),'Songs')]")
     private WebElement songsFilter;
+    @FindBy(xpath = "//div[@role=\"presentation\"]//div//span[contains(text(),'Title')]")
+    private WebElement titleColumn;
+    private String listOfSongs = "//div[@role=\"presentation\"]//div[@data-testid=\"tracklist-row\"]//div/a/div[@dir=\"auto\"]";
+            //"//div[@data-testid=\"tracklist-row\"]//div[@dir=\"auto\"]";
 
     public SearchPage(WebDriver driver) {
         super(driver);
     }
     public SearchPage filterForSongs() {
         waitForElements(songsFilter).click();
-        waitForElements(songToAdd).isDisplayed();
+        waitForElements(titleColumn).isDisplayed();
         return this;
     }
     public HomePage addSongToPlaylist(String trackName, String playlistName) {
         Actions action = new Actions(driver);
-        action.contextClick(getSongFromList(trackName)).perform();
+        action.contextClick(getSongFromFilteredList(trackName)).perform();
         getContextMenuOptionOnTrack("Add to playlist").click();
         waitForElements(existingPlaylist);
         List<WebElement> subMenuList = driver.findElements(By.xpath(subMenuItems));
@@ -39,5 +43,12 @@ public class SearchPage extends BasePage {
                 .findFirst().get())
                 .click();
         return new HomePage(driver);
+    }
+    public WebElement getSongFromFilteredList(String trackName) {
+        List<WebElement> songsList = driver.findElements(By.xpath(listOfSongs));
+        return waitForElements(songsList
+                .stream()
+                .filter(p -> p.getText().contains(trackName))
+                .findFirst().get());
     }
 }

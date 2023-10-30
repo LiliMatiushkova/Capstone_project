@@ -15,25 +15,32 @@ public class PlaylistPage extends BasePage {
     private WebElement addedTrack;
     @FindBy(xpath = "//div[@data-testid=\"tracklist-row\"]//div//a/div[contains(text(),'Greatest Love of All')]")
     private WebElement addedTrackToDelete;
-    @FindBy(xpath = "//section[@data-testid=\"playlist-page\"]//div//span/h1")
-    private WebElement myPlaylist;
     private String listOfSongs = "//div[@data-testid=\"tracklist-row\"]//div[@dir=\"auto\"]";
+    @FindBy(xpath = "//div[@role=\"presentation\"]//div//span[contains(text(),'Title')]")
+    private WebElement titleColumn;
     public PlaylistPage(WebDriver driver) {
         super(driver);
     }
-    public String getNameOfAddedTrack() {
-        waitForElements(addedTrack).isDisplayed();
-        return addedTrack.getText();
+    public String getNameOfAddedTrack(String trackName) {
+        waitForElements(titleColumn).isDisplayed();
+        return getSongFromPlaylist(trackName).getText();
     }
     public PlaylistPage removeTrackFromPlaylist(String trackName) {
-        waitForElements(addedTrackToDelete).isDisplayed();
+        waitForElements(titleColumn).isDisplayed();
         Actions action = new Actions(driver);
-        action.contextClick(addedTrackToDelete).perform();
+        action.contextClick(getSongFromPlaylist(trackName)).perform();
         getContextMenuOptionOnTrack("Remove from this playlist").click();
         return this;
     }
-    public List<WebElement> getListOfSongs() {
+    public List<WebElement> getAllSongsFromPlaylist() {
         List<WebElement> songsList = driver.findElements(By.xpath(listOfSongs));
         return songsList;
+    }
+    public WebElement getSongFromPlaylist(String trackName) {
+        List<WebElement> songsList = driver.findElements(By.xpath(listOfSongs));
+        return waitForElements(songsList
+                .stream()
+                .filter(p -> p.getText().equals(trackName))
+                .findFirst().get());
     }
 }

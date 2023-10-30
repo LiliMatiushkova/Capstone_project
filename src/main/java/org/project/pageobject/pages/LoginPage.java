@@ -7,7 +7,6 @@ import org.openqa.selenium.support.FindBy;
 import org.project.pageobject.BasePage;
 
 public class LoginPage extends BasePage {
-    private String loginPage = "https://accounts.spotify.com/en/login?continue=https%3A%2F%2Fopen.spotify.com%2F";
     @FindBy(id = "login-username")
     private WebElement userNameField;
     @FindBy(id = "login-password")
