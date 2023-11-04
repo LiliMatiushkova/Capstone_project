@@ -11,8 +11,6 @@ import java.util.List;
 
 public class SearchPage extends BasePage {
 
-   // @FindBy(xpath = "//div[@data-testid=\"tracklist-row\"]//div[contains(text(),'I Will Always Love You')]")
-  //  private WebElement songToAdd;
     @FindBy(xpath = "//div[contains(@style,'context-menu-submenu')]//li/button/span[contains(text(),'My Playlist #1')]")
     private WebElement existingPlaylist;
     private String subMenuItems = "//div[contains(@style,'context-menu-submenu')]//li/button/span";
@@ -20,8 +18,9 @@ public class SearchPage extends BasePage {
     private WebElement songsFilter;
     @FindBy(xpath = "//div[@role=\"presentation\"]//div//span[contains(text(),'Title')]")
     private WebElement titleColumn;
+    @FindBy(xpath = "//div[@role=\"dialog\"]//button[@aria-label=\"Close\"]")
+    private WebElement closeBtnOnPopup;
     private String listOfSongs = "//div[@role=\"presentation\"]//div[@data-testid=\"tracklist-row\"]//div/a/div[@dir=\"auto\"]";
-            //"//div[@data-testid=\"tracklist-row\"]//div[@dir=\"auto\"]";
 
     public SearchPage(WebDriver driver) {
         super(driver);
@@ -32,6 +31,7 @@ public class SearchPage extends BasePage {
         return this;
     }
     public HomePage addSongToPlaylist(String trackName, String playlistName) {
+        closeBtnOnPopup.click();
         Actions action = new Actions(driver);
         action.contextClick(getSongFromFilteredList(trackName)).perform();
         getContextMenuOptionOnTrack("Add to playlist").click();

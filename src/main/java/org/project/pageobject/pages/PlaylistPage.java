@@ -6,15 +6,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.project.pageobject.BasePage;
-
 import java.util.List;
 
-
 public class PlaylistPage extends BasePage {
-    @FindBy(xpath = "//div[@data-testid=\"tracklist-row\"]//div//a/div[contains(text(),'I Will Always Love You')]")
-    private WebElement addedTrack;
-    @FindBy(xpath = "//div[@data-testid=\"tracklist-row\"]//div//a/div[contains(text(),'Greatest Love of All')]")
-    private WebElement addedTrackToDelete;
     private String listOfSongs = "//div[@data-testid=\"tracklist-row\"]//div[@dir=\"auto\"]";
     @FindBy(xpath = "//div[@role=\"presentation\"]//div//span[contains(text(),'Title')]")
     private WebElement titleColumn;

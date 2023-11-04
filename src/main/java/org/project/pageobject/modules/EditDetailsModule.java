@@ -20,5 +20,4 @@ public class EditDetailsModule extends BasePage {
         saveButton.click();
         return new HomePage(driver);
     }
-
 }

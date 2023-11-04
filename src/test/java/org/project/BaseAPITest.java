@@ -26,7 +26,7 @@ public class BaseAPITest {
     private RequestSpecification requestSpecification;
     public void setCommonParams(RequestSpecification requestSpecification) {
         Map<String, String> headers = new HashMap<>();
-        headers.put("Accept", "application/json");
+       // headers.put("Accept", "application/json");
         headers.put("Content-Type", "application/json");
         requestSpecification.headers(headers);
     }
@@ -53,6 +53,7 @@ public class BaseAPITest {
                 .when()
                 .get(authUrl);
         JsonPath jsonPath = response.jsonPath();
+        System.out.println(response.asPrettyString());
         // Extract the "name" field
         String code = jsonPath.get("code");
         System.out.println(code);

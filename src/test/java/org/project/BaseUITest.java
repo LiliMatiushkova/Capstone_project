@@ -3,14 +3,10 @@ package org.project;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.project.holder.PropertyHolder;
 import org.project.pageobject.pages.HomePage;
 import org.project.pageobject.pages.StartPage;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.util.Properties;
 
 public class BaseUITest {
     public WebDriver driver;
@@ -19,9 +15,9 @@ public class BaseUITest {
     String password = prop.readProperty("password");
 
     public void setUp() {
-        WebDriverManager.firefoxdriver().setup();
+        WebDriverManager.chromedriver().setup();
 
-        driver = new FirefoxDriver();
+        driver = new ChromeDriver();
         driver.manage().window().maximize();
     }
     public void close() {
