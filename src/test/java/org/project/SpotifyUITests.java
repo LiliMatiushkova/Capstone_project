@@ -29,6 +29,7 @@ public class SpotifyUITests extends BaseUITest {
         String expectedPasswordErrorMessage = "Please enter your password.";
         StartPage startPage = new StartPage(driver);
         String userNameErrorMessage = startPage
+                .openStartPage()
                 .openLoginPage()
                 .typeCredentials("testName","testPassword")
                 .getErrorForClearNameField();
@@ -44,6 +45,7 @@ public class SpotifyUITests extends BaseUITest {
         String expectedErrorMessage = "Incorrect username or password.";
         StartPage startPage = new StartPage(driver);
         String errorMessage = startPage
+                .openStartPage()
                 .openLoginPage()
                 .typeCredentials(login,password)
                 .getErrorForIncorrectCredentials();
@@ -55,6 +57,7 @@ public class SpotifyUITests extends BaseUITest {
         String expectedUserInfoText = "Liliia";
         StartPage startPage = new StartPage(driver);
         String givenUserInfoText = startPage
+                .openStartPage()
                 .openLoginPage()
                 .typeCredentials(username, password)
                 .successLogin()

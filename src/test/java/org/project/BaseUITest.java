@@ -27,6 +27,7 @@ public class BaseUITest {
     public void login() {
         StartPage startPage = new StartPage(driver);
         startPage
+                .openStartPage()
                 .openLoginPage()
                 .typeCredentials(username, password)
                 .successLogin();

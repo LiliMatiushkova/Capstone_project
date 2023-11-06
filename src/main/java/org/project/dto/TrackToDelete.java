@@ -3,15 +3,21 @@ package org.project.dto;
 import io.qameta.allure.internal.shadowed.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
+import java.util.ArrayList;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Builder
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Playlist {
-    String name;
-    String description;
-    Boolean Public;
-    //Boolean collaborative;
+public class TrackToDelete {
+    ArrayList<URI> tracks;
+    String snapshot_id;
+    public class URI {
+        String uri;
+        public void setUri(String uri) {
+            this.uri = uri;
+        }
+    }
 }

@@ -6,35 +6,22 @@ import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.apache.hc.core5.http.HttpStatus;
-import org.project.dto.AccessTokenResponse;
-import org.project.dto.AuthorizationResponse;
-import org.project.dto.Playlist;
+import org.project.dto.*;
 import org.project.specifications.Authentication;
+import org.project.specifications.BaseSpec;
 import org.project.specifications.PlaylistSpec;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 import static io.restassured.RestAssured.given;
 
 public class BaseAPITest {
+    PlaylistSpec playlistSpec = new PlaylistSpec();
+
     private RequestSpecification requestSpecification;
-    public void setCommonParams(RequestSpecification requestSpecification) {
-        Map<String, String> headers = new HashMap<>();
-       // headers.put("Accept", "application/json");
-        headers.put("Content-Type", "application/json");
-        requestSpecification.headers(headers);
-    }
-    @BeforeMethod
-    public void authSetUp() {
-        requestSpecification = RestAssured.given();
-        setCommonParams(requestSpecification);
-    }
 
     String clientId = "c9e017d2fd6e4e9f992e7430a3ddd38f";
     String redirectUri = "http://localhost:8888/callback";
@@ -60,8 +47,7 @@ public class BaseAPITest {
     }
 
 
-    /*Authentication authentication = new Authentication();
-    PlaylistSpec playlistSpec = new PlaylistSpec();
+   /*
 
 
     public String getAuthorizationCode() {
@@ -102,16 +88,64 @@ public class BaseAPITest {
         requestSpecification.headers(headers);
     } */
 
-    public Playlist createPlaylist() {
-        Random random = new Random();
+    public Playlist createPlaylist(String name, String description) {
         Playlist playlist = new Playlist();
-        playlist.setName("Playlist" + random.nextInt());
-        playlist.setDescription("Description" + random.nextInt());
-        playlist.setPublic(Boolean.TRUE);
+        playlist.setName(name);
+        playlist.setDescription(description);
+        playlist.setPublic(Boolean.FALSE);
         return playlist;
     }
+    public JsonPath createPlaylistAPI(String name, String description) {
+        Playlist expectedPlaylist = createPlaylist(name, description);
+        return given()
+                .spec(playlistSpec.getPlaylistCreateSpec(expectedPlaylist))
+                .when()
+                .post()
+                .then()
+                .extract().jsonPath();
+    }
+    public Playlist updatePlaylist(String updatedName, String updatedDescription) {
+        Playlist playlist = new Playlist();
+        playlist.setName(updatedName);
+        playlist.setDescription(updatedDescription);
+        playlist.setPublic(Boolean.FALSE);
+        return playlist;
+    }
+    public JsonPath updatePlaylistAPI(String updatedPlaylistName, String updatedPlaylistDescription, String playlistId) {
+        Playlist newPlaylist = updatePlaylist(updatedPlaylistName, updatedPlaylistDescription);
+        return given()
+                .spec(playlistSpec.getPlaylistUpdateSpec(playlistId, newPlaylist))
+                .when()
+                .put()
+                .then()
+                .extract().jsonPath();
+    }
+    public Track createTrack(String trackUri) {
+        Track track = new Track();
+        ArrayList<String> uris = new ArrayList<>();
+        uris.add(trackUri);
+        track.setUris(uris);
+        track.setPosition(0);
+        return track;
+    }
+    public TrackToDelete trackToDelete(String snapshotId, String trackUri) {
 
-   /* public Response createPlaylistAPI() {
-
-    } */
+        TrackToDelete trackToDelete = new TrackToDelete();
+        TrackToDelete.URI uri = trackToDelete.new URI();
+        uri.setUri(trackUri);
+        ArrayList<TrackToDelete.URI> tracks = new ArrayList<>();
+        tracks.add(uri);
+        trackToDelete.setTracks(tracks);
+        trackToDelete.setSnapshot_id(snapshotId);
+        return trackToDelete;
+    }
+    public JsonPath addTrackToPlaylistAPI(String playlistId, String trackUri) {
+        return given()
+                .spec(playlistSpec.getAddItemsToPlaylistSpec(playlistId, createTrack(trackUri)))
+                .when()
+                .post()
+                .then()
+                .spec(playlistSpec.getResponseSpecCheckCreated()).log().body()
+                .extract().jsonPath();
+    }
 }

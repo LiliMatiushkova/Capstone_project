@@ -14,8 +14,11 @@ public class StartPage extends BasePage {
     }
 
     public LoginPage openLoginPage() {
-        driver.get("https://open.spotify.com/");
-        loginButton.click();
+        waitForElements(loginButton).click();
         return new LoginPage(driver);
+    }
+    public StartPage openStartPage() {
+        driver.get("https://open.spotify.com/");
+        return this;
     }
 }
