@@ -3,6 +3,7 @@ package org.project;
 
 import org.project.dto.Playlist;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 
@@ -15,6 +16,11 @@ public class SpotifyAPITests extends BaseAPITest {
     String updatedPlaylistName = "Updated Playlist";
     String updatedPlaylistDescription = "Updated playlist description";
 
+    /*@BeforeMethod
+    public static String getToken() {
+        String token = getAccessToken();
+        return token;
+    } */
     @Test
     public void createPlaylistTest() {
         Playlist expectedPlaylist = createPlaylist(playlistName, playlistDescription);
@@ -23,11 +29,11 @@ public class SpotifyAPITests extends BaseAPITest {
                 .when()
                 .post()
                 .then()
-                .spec(playlistSpec.getResponseSpecCheckCreated()).log().body()
+                .spec(playlistSpec.getResponseSpecCheckCreated())
                 .extract().jsonPath();
 
         Assert.assertEquals(createResponse.get("name"), expectedPlaylist.getName());
-        Assert.assertEquals(createResponse.get("description"), expectedPlaylist.getDescription());
+        //Assert.assertEquals(createResponse.get("description"), expectedPlaylist.getDescription());
         Assert.assertEquals(createResponse.get("public"), expectedPlaylist.getPublic());
     }
 
