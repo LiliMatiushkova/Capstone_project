@@ -19,10 +19,10 @@ public class SpotifyEndToEndTests {
         uiTest.setUp();
     }
 
-    /*@AfterMethod
+    @AfterMethod
     public void closeDriver() {
         uiTest.close();
-    }*/
+    }
 
     @Test
     public void addSongToPlaylistTest() {

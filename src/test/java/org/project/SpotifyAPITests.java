@@ -16,11 +16,6 @@ public class SpotifyAPITests extends BaseAPITest {
     String updatedPlaylistName = "Updated Playlist";
     String updatedPlaylistDescription = "Updated playlist description";
 
-    /*@BeforeMethod
-    public static String getToken() {
-        String token = getAccessToken();
-        return token;
-    } */
     @Test
     public void createPlaylistTest() {
         Playlist expectedPlaylist = createPlaylist(playlistName, playlistDescription);
