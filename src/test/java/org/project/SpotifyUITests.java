@@ -31,7 +31,7 @@ public class SpotifyUITests extends BaseUITest {
         String userNameErrorMessage = startPage
                 .openStartPage()
                 .openLoginPage()
-                .typeCredentials("testName","testPassword")
+                .typeCredentials("a","b")
                 .getErrorForClearNameField();
         LoginPage loginPage = new LoginPage(driver);
         String passwordErrorMessage = loginPage

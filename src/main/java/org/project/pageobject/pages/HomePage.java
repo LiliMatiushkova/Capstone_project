@@ -63,8 +63,9 @@ public class HomePage extends BasePage {
         return this;
     }
     public String getPlaylistNameFromList() {
-        waitForElements(myPlaylistInList).sendKeys(Keys.CONTROL,"r"); //to wait for update
-        return myPlaylistInList.getText();
+        driver.navigate().refresh();
+        //waitForElements(myPlaylistInList).sendKeys(Keys.CONTROL,"r"); //to wait for update
+        return waitForElements(myPlaylistInList).getText();
     }
     public String getPlaylistNameFromMainPage() {
         return waitForElements(myPlaylistFromPlaylistPage).getText();

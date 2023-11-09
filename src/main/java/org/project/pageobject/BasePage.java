@@ -6,6 +6,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.project.holder.PropertyHolder;
+
 import java.time.Duration;
 import java.util.List;
 
@@ -15,6 +17,8 @@ public class BasePage {
     private String contextMenuOptionsOnPlaylist = "//div[@id=\"context-menu\"]//li//button//span";
 
     protected WebDriver driver;
+    PropertyHolder prop = new PropertyHolder();
+    int wait = Integer.parseInt(prop.readProperty("wait"));
 
     protected BasePage(WebDriver driver) {
         this.driver = driver;
@@ -22,7 +26,7 @@ public class BasePage {
     }
 
     public WebElement waitForElements(WebElement element){
-        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOf(element));
+        new WebDriverWait(driver, Duration.ofSeconds(wait)).until(ExpectedConditions.visibilityOf(element));
         return element;
     }
 

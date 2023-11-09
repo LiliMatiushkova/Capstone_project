@@ -19,14 +19,14 @@ public class SpotifyEndToEndTests {
         uiTest.setUp();
     }
 
-    @AfterMethod
-    public void closeDriver() {
-        uiTest.close();
-    }
+  //  @AfterMethod
+ //   public void closeDriver() {
+ //       uiTest.close();
+ //   }
 
     @Test
     public void addSongToPlaylistTest() {
-        String trackName = "I Will Always Love You";
+        String trackName = "I Have Nothing";
 
         apiTest.createPlaylistAPI(playlistName, playlistDescription);
         uiTest.login();
@@ -42,15 +42,10 @@ public class SpotifyEndToEndTests {
     }
     @Test
     public void editDetailsOfPlaylistTest() {
-        String playlistId = apiTest.createPlaylistAPI(playlistName, playlistDescription).get("id");
+        String playlistId = apiTest.createPlaylistAPI(playlistName, playlistDescription).getId();
         apiTest.updatePlaylistAPI(updatedPlaylistName, updatedPlaylistDescription, playlistId);
         uiTest.login();
         HomePage homePage = new HomePage(uiTest.driver);
-        homePage
-                .logOut()
-                .openLoginPage()
-                .typeCredentials(uiTest.username, uiTest.password)
-                .successLogin();
         String playlistNameFromList = homePage
                 .getPlaylistNameFromList();
 

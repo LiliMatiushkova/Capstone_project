@@ -1,6 +1,5 @@
 package org.project.dto;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
@@ -13,9 +12,10 @@ import lombok.extern.jackson.Jacksonized;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Playlist {
+public class PlaylistResponse {
     String name;
     String description;
     @JsonProperty("public")
     Boolean Public;
+    String id;
 }

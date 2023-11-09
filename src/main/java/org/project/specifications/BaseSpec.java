@@ -32,6 +32,12 @@ public class BaseSpec {
                 .expectStatusCode(HttpURLConnection.HTTP_OK)
                 .build();
     }
+    public ResponseSpecification getResponseSpecCheckGetOk() {
+        return new ResponseSpecBuilder()
+                .expectStatusCode(HttpURLConnection.HTTP_OK)
+                .expectContentType(ContentType.JSON)
+                .build();
+    }
     public ResponseSpecification getResponseSpecCheckDeleted() {
         return new ResponseSpecBuilder()
                 .expectStatusCode(HttpURLConnection.HTTP_OK)
