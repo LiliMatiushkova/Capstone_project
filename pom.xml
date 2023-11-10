@@ -105,6 +105,24 @@
           </allureDownloadUrl>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.22.2</version>
+        <configuration>
+          <suiteXmlFiles>
+            <suiteXmlFile>
+              src\test\resources\API_suite.xml
+            </suiteXmlFile>
+            <suiteXmlFile>
+              src\test\resources\UI_suite.xml
+            </suiteXmlFile>
+            <suiteXmlFile>
+              src\test\resources\E2E_suite.xml
+            </suiteXmlFile>
+          </suiteXmlFiles>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 </project>

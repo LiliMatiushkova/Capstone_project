@@ -15,7 +15,7 @@ public class TrackToDeleteRequest {
     ArrayList<URI> tracks;
     String snapshot_id;
     public class URI {
-        String uri;
+        public String uri;
         public void setUri(String uri) {
             this.uri = uri;
         }
