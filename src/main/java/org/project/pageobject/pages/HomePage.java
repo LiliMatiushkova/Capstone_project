@@ -38,6 +38,10 @@ public class HomePage extends BasePage {
     private WebElement deleteButton;
     @FindBy(xpath = "//div[@class=\"notistack-CollapseWrapper\"]//div/span[contains(text(),'Removed from Your Library.')]")
     private WebElement removedFromYourLibrarySnackbar;
+    @FindBy(xpath = "//span[contains(text(),'Home')]")
+    private WebElement homeIcon;
+    @FindBy(xpath = "//div[@data-testid=\"user-widget-menu\"]/ul[@role=\"menu\"]//span[contains(text(),'Log out')]")
+    private WebElement logOutButton;
     private String listOfPlaylists = "//ul[@aria-label=\"Your Library\"]//li[@role=\"listitem\" and @draggable]";
 
 
@@ -55,6 +59,7 @@ public class HomePage extends BasePage {
         return this;
     }
     public String getPlaylistNameFromList() {
+        waitForElements(homeIcon).isDisplayed();
         driver.navigate().refresh();
         return waitForElements(myPlaylistInList).getText();
     }
@@ -96,6 +101,11 @@ public class HomePage extends BasePage {
         waitForElements(editDetailsOption);
         getContextMenuOptionOnPlaylist(optionName).click();
         return this;
+    }
+    public StartPage logOut() {
+        waitForElements(profileIcon).click();
+        waitForElements(logOutButton).click();
+        return new StartPage(driver);
     }
     public HomePage clickDeleteInConfirmationPopup() {
         waitForElements(deleteConfirmationPopup);

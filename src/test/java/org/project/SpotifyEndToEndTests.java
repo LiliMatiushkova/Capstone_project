@@ -1,7 +1,7 @@
 package org.project;
 
+import org.project.dto.PlaylistResponse;
 import org.project.pageobject.pages.HomePage;
-import org.project.pageobject.pages.StartPage;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -20,10 +20,10 @@ public class SpotifyEndToEndTests {
         uiTest.setUp();
     }
 
-    @AfterMethod
+   /* @AfterMethod
     public void closeDriver() {
         uiTest.close();
-    }
+    } */
 
     @Test
     public void addSongToPlaylistTest() {
@@ -43,10 +43,16 @@ public class SpotifyEndToEndTests {
     }
     @Test
     public void editDetailsOfPlaylistTest() {
-        String playlistId = apiTest.createPlaylistAPI(playlistName, playlistDescription).getId();
+        PlaylistResponse createdPlaylist = apiTest.createPlaylistAPI(playlistName, playlistDescription);
+        String playlistId = createdPlaylist.getId();
         apiTest.updatePlaylistAPI(updatedPlaylistName, updatedPlaylistDescription, playlistId);
         uiTest.login();
         HomePage homePage = new HomePage(uiTest.driver);
+        homePage
+                .logOut()
+                .openLoginPage()
+                .typePasswordForSecondLogin(uiTest.password)
+                .successLogin();
         String playlistNameFromList = homePage
                 .getPlaylistNameFromList();
 

@@ -34,6 +34,11 @@ public class LoginPage extends BasePage {
         this.passwordField.sendKeys(password);
         return this;
     }
+    public LoginPage typePasswordForSecondLogin(String password) {
+        waitForElements(passwordField);
+        this.passwordField.sendKeys(password);
+        return this;
+    }
     public String getErrorForClearNameField() {
         userNameField.sendKeys(Keys.BACK_SPACE);
         return waitForElements(userNameError).getText();
