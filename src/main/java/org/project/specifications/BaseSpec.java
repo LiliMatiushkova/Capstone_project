@@ -20,6 +20,9 @@ public class BaseSpec {
             .setBaseUri(BASE_URL)
             .setContentType(ContentType.JSON)
             .addQueryParams(Authentication.getAuthenticationParameters());
+    protected RequestSpecBuilder baseRequestBuilderWithoutContentType = new RequestSpecBuilder()
+            .setBaseUri(BASE_URL)
+            .addQueryParams(Authentication.getAuthenticationParameters());
 
     public ResponseSpecification getResponseSpecCheckCreated() {
         return new ResponseSpecBuilder()

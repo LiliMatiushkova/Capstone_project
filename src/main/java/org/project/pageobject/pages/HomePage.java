@@ -1,7 +1,6 @@
 package org.project.pageobject.pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -16,8 +15,6 @@ public class HomePage extends BasePage {
     private WebElement profileIcon;
     @FindBy(xpath = "//div[@data-testid=\"user-widget-menu\"]/ul[@role=\"menu\"]//span[contains(text(),'Profile')]")
     private WebElement profileOption;
-    @FindBy(xpath = "//div[@data-testid=\"user-widget-menu\"]/ul[@role=\"menu\"]//span[contains(text(),'Log out')]")
-    private WebElement logOutButton;
     @FindBy(xpath = "//span[contains(text(),'Create playlist')]/parent::button")
     private WebElement createPlaylistButton;
     @FindBy(xpath = "//div[@data-encore-id=\"listRow\"]//div/p/span")
@@ -53,18 +50,12 @@ public class HomePage extends BasePage {
         waitForElements(profileOption).click();
         return new ProfileModule(driver);
     }
-    public StartPage logOut() {
-        waitForElements(profileIcon).click();
-        waitForElements(logOutButton).click();
-        return new StartPage(driver);
-    }
     public HomePage createPlaylist() {
         waitForElements(createPlaylistButton).click();
         return this;
     }
     public String getPlaylistNameFromList() {
         driver.navigate().refresh();
-        //waitForElements(myPlaylistInList).sendKeys(Keys.CONTROL,"r"); //to wait for update
         return waitForElements(myPlaylistInList).getText();
     }
     public String getPlaylistNameFromMainPage() {
@@ -121,5 +112,4 @@ public class HomePage extends BasePage {
                 .stream()
                 .findFirst().get());
     }
-
 }

@@ -16,7 +16,68 @@
     <maven.compiler.target>20</maven.compiler.target>
     <aspectj.version>1.9.20.1</aspectj.version>
     <allure.version>2.24.0</allure.version>
+    <rest-assured.version>5.3.2</rest-assured.version>
   </properties>
+
+  <profiles>
+    <profile>
+      <id>API_suite</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>3.1.2</version>
+            <configuration>
+              <suiteXmlFiles>
+                <suiteXmlFile>
+                  src\test\resources\API_suite.xml
+                </suiteXmlFile>
+              </suiteXmlFiles>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>UI_suite</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>3.1.2</version>
+            <configuration>
+              <suiteXmlFiles>
+                <suiteXmlFile>
+                  src\test\resources\UI_suite.xml
+                </suiteXmlFile>
+              </suiteXmlFiles>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>E2E_suite</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>3.1.2</version>
+            <configuration>
+              <suiteXmlFiles>
+                <suiteXmlFile>
+                  src\test\resources\E2E_suite.xml
+                </suiteXmlFile>
+              </suiteXmlFiles>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
   <dependencies>
     <dependency>
@@ -39,7 +100,7 @@
     <dependency>
       <groupId>io.rest-assured</groupId>
       <artifactId>rest-assured</artifactId>
-      <version>5.3.2</version>
+      <version>${rest-assured.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -56,7 +117,7 @@
     <dependency>
       <groupId>io.rest-assured</groupId>
       <artifactId>rest-assured</artifactId>
-      <version>5.3.2</version>
+      <version>${rest-assured.version}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -75,9 +136,8 @@
       <version>2.15.3</version>
     </dependency>
 
-
-
   </dependencies>
+
   <build>
     <plugins>
       <plugin>
@@ -103,24 +163,6 @@
           <reportVersion>${allure.version}</reportVersion>
           <allureDownloadUrl>https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline/${allure.version}/allure-commandline-${allure.version}.zip
           </allureDownloadUrl>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.22.2</version>
-        <configuration>
-          <suiteXmlFiles>
-            <suiteXmlFile>
-              src\test\resources\API_suite.xml
-            </suiteXmlFile>
-            <suiteXmlFile>
-              src\test\resources\UI_suite.xml
-            </suiteXmlFile>
-            <suiteXmlFile>
-              src\test\resources\E2E_suite.xml
-            </suiteXmlFile>
-          </suiteXmlFiles>
         </configuration>
       </plugin>
     </plugins>

@@ -22,7 +22,7 @@ public class PlaylistSpec extends BaseSpec {
                 .build();
     }
     public RequestSpecification getPlaylistGetSpec(String playlistId) {
-        return baseRequestBuilder
+        return baseRequestBuilderWithoutContentType
                 .setBasePath(parameterPlaylists + playlistId)
                 .build();
     }

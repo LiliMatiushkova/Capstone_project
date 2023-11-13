@@ -101,7 +101,7 @@ public class SpotifyUITests extends BaseUITest {
 
     @Test
     public void searchAndAddToPlaylistTest() {
-        String trackName = "I Will Always Love You";
+        String trackName = "I Will Always Love You - Film Version";
         login();
         HomePage homePage = new HomePage(driver);
         String nameOfAddedTrackInPlaylist = homePage

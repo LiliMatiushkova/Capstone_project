@@ -1,6 +1,7 @@
 package org.project;
 
 import org.project.pageobject.pages.HomePage;
+import org.project.pageobject.pages.StartPage;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -19,14 +20,14 @@ public class SpotifyEndToEndTests {
         uiTest.setUp();
     }
 
-  //  @AfterMethod
- //   public void closeDriver() {
- //       uiTest.close();
- //   }
+    @AfterMethod
+    public void closeDriver() {
+        uiTest.close();
+    }
 
     @Test
     public void addSongToPlaylistTest() {
-        String trackName = "I Have Nothing";
+        String trackName = "I Will Always Love You - Film Version";
 
         apiTest.createPlaylistAPI(playlistName, playlistDescription);
         uiTest.login();

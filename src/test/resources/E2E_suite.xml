@@ -1,6 +1,6 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Test suite">
-    <test name="testing">
+<suite name="E2E suite">
+    <test name="e2e testing">
         <classes>
             <class name="org.project.SpotifyEndToEndTests" />
         </classes>
