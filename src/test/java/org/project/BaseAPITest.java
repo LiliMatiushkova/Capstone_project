@@ -27,15 +27,15 @@ public class BaseAPITest {
                 .then()
                 .extract().body().as(PlaylistResponse.class);
     }
-    public Playlist updatePlaylist(String updatedName, String updatedDescription) {
+    public Playlist updatePlaylist(String updatedName, String updatedDescription, Boolean Public) {
         Playlist playlist = new Playlist();
         playlist.setName(updatedName);
         playlist.setDescription(updatedDescription);
-        playlist.setPublic(Boolean.FALSE);
+        playlist.setPublic(Public);
         return playlist;
     }
-    public JsonPath updatePlaylistAPI(String updatedPlaylistName, String updatedPlaylistDescription, String playlistId) {
-        Playlist newPlaylist = updatePlaylist(updatedPlaylistName, updatedPlaylistDescription);
+    public JsonPath updatePlaylistAPI(String updatedPlaylistName, String updatedPlaylistDescription, Boolean Public, String playlistId) {
+        Playlist newPlaylist = updatePlaylist(updatedPlaylistName, updatedPlaylistDescription, Public);
         return given()
                 .spec(playlistSpec.getPlaylistUpdateSpec(playlistId, newPlaylist))
                 .when()
@@ -51,24 +51,24 @@ public class BaseAPITest {
         track.setPosition(0);
         return track;
     }
-    public TrackToDeleteRequest trackToDelete(String snapshotId, String trackUri) {
+    public TrackRequest trackToDelete(String snapshotId, String trackUri) {
 
-        TrackToDeleteRequest trackToDelete = new TrackToDeleteRequest();
-        TrackToDeleteRequest.URI uri = trackToDelete.new URI();
+        TrackRequest trackToDelete = new TrackRequest();
+        TrackRequest.URI uri = trackToDelete.new URI();
         uri.setUri(trackUri);
-        ArrayList<TrackToDeleteRequest.URI> tracks = new ArrayList<>();
+        ArrayList<TrackRequest.URI> tracks = new ArrayList<>();
         tracks.add(uri);
         trackToDelete.setTracks(tracks);
         trackToDelete.setSnapshot_id(snapshotId);
         return trackToDelete;
     }
-    public JsonPath addTrackToPlaylistAPI(String playlistId, String trackUri) {
+    public TrackRequest addTrackToPlaylistAPI(String playlistId, String trackUri) {
         return given()
                 .spec(playlistSpec.getAddItemsToPlaylistSpec(playlistId, createTrack(trackUri)))
                 .when()
                 .post()
                 .then()
                 .spec(playlistSpec.getResponseSpecCheckCreated()).log().body()
-                .extract().jsonPath();
+                .extract().body().as(TrackRequest.class);
     }
 }

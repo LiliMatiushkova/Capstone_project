@@ -11,7 +11,7 @@ import java.util.ArrayList;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TrackToDeleteRequest {
+public class TrackRequest {
     ArrayList<URI> tracks;
     String snapshot_id;
     public class URI {

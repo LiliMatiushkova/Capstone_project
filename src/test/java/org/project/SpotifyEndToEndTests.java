@@ -12,6 +12,7 @@ public class SpotifyEndToEndTests {
     String playlistDescription = "New playlist description";
     String updatedPlaylistName = "Updated Playlist";
     String updatedPlaylistDescription = "Updated playlist description";
+    Boolean updatedPublic = Boolean.FALSE;
     private BaseAPITest apiTest = new BaseAPITest();
     private BaseUITest uiTest = new BaseUITest();
 
@@ -45,7 +46,7 @@ public class SpotifyEndToEndTests {
     public void editDetailsOfPlaylistTest() {
         PlaylistResponse createdPlaylist = apiTest.createPlaylistAPI(playlistName, playlistDescription);
         String playlistId = createdPlaylist.getId();
-        apiTest.updatePlaylistAPI(updatedPlaylistName, updatedPlaylistDescription, playlistId);
+        apiTest.updatePlaylistAPI(updatedPlaylistName, updatedPlaylistDescription, updatedPublic, playlistId);
         uiTest.login();
         HomePage homePage = new HomePage(uiTest.driver);
         homePage

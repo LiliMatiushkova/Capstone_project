@@ -3,7 +3,7 @@ package org.project;
 
 import org.project.dto.Playlist;
 import org.project.dto.PlaylistResponse;
-import org.project.dto.TrackToDeleteRequest;
+import org.project.dto.TrackRequest;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -16,6 +16,7 @@ public class SpotifyAPITests extends BaseAPITest {
     String playlistDescription = "New playlist description";
     String updatedPlaylistName = "Updated Playlist";
     String updatedPlaylistDescription = "Updated playlist description";
+    Boolean Public = Boolean.FALSE;
 
     @Test
     public void createPlaylistTest() {
@@ -37,7 +38,7 @@ public class SpotifyAPITests extends BaseAPITest {
     public void getPlaylistById() {
         String playlistId = createPlaylistAPI(playlistName, playlistDescription).getId();
         var getResponse = given()
-                .spec(playlistSpec.getPlaylistGetSpec(playlistId)).log().all()
+                .spec(playlistSpec.getPlaylistGetSpec(playlistId))
                 .when()
                 .get()
                 .then()
@@ -49,7 +50,7 @@ public class SpotifyAPITests extends BaseAPITest {
     @Test
     public void editPlaylistDetails() {
         String playlistId = createPlaylistAPI(playlistName, playlistDescription).getId();
-        Playlist editedNewPlaylist = updatePlaylist(updatedPlaylistName, updatedPlaylistDescription);
+        Playlist editedNewPlaylist = updatePlaylist(updatedPlaylistName, updatedPlaylistDescription, Public);
         given()
                 .spec(playlistSpec.getPlaylistUpdateSpec(playlistId, editedNewPlaylist))
                 .when()
@@ -67,7 +68,7 @@ public class SpotifyAPITests extends BaseAPITest {
                 .post()
                 .then()
                 .spec(playlistSpec.getResponseSpecCheckCreated()).log().body()
-                .extract().body().as(TrackToDeleteRequest.class);
+                .extract().body().as(TrackRequest.class);
 
         Assert.assertNotNull(addItemsResponse.getSnapshot_id());
     }
@@ -76,7 +77,7 @@ public class SpotifyAPITests extends BaseAPITest {
     public void removeSongFromPlaylist() {
         String playlistId = createPlaylistAPI(playlistName, playlistDescription).getId();
         var addTrackResponse = addTrackToPlaylistAPI(playlistId, trackUri);
-        String snapshotId = addTrackResponse.get("snapshot_id");
+        String snapshotId = addTrackResponse.getSnapshot_id();
         Assert.assertNotNull(snapshotId);
         var deleteTrackFromPlaylistResponse = given()
                 .spec(playlistSpec.removeTrackFromPlaylistSpec(playlistId, trackToDelete(snapshotId, trackUri)))
@@ -84,7 +85,7 @@ public class SpotifyAPITests extends BaseAPITest {
                 .delete()
                 .then()
                 .spec(playlistSpec.getResponseSpecCheckDeleted())
-                .extract().body().as(TrackToDeleteRequest.class);
+                .extract().body().as(TrackRequest.class);
 
         Assert.assertNotNull(deleteTrackFromPlaylistResponse.getSnapshot_id());
     }
