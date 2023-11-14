@@ -11,7 +11,7 @@ import java.util.List;
 
 public class SearchPage extends BasePage {
 
-    @FindBy(xpath = "//div[contains(@style,'context-menu-submenu')]//li/button/span[contains(text(),'My Playlist #1')]")
+    @FindBy(xpath = "//div[contains(@style,'context-menu-submenu')]//li/button/span[contains(text(),'New Playlist')]")
     private WebElement existingPlaylist;
     private String subMenuItems = "//div[contains(@style,'context-menu-submenu')]//li/button/span";
     @FindBy(xpath = "//div[@role=\"presentation\"]//button//span[contains(text(),'Songs')]")
@@ -35,7 +35,7 @@ public class SearchPage extends BasePage {
         Actions action = new Actions(driver);
         action.contextClick(getSongFromFilteredList(trackName)).perform();
         getContextMenuOptionOnTrack("Add to playlist").click();
-        waitForElements(existingPlaylist);
+        waitForElements(existingPlaylist).isDisplayed();
         List<WebElement> subMenuList = driver.findElements(By.xpath(subMenuItems));
         waitForElements(subMenuList
                 .stream()

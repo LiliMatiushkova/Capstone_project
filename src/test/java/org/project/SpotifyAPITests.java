@@ -5,8 +5,12 @@ import org.project.dto.Playlist;
 import org.project.dto.PlaylistResponse;
 import org.project.dto.TrackRequest;
 import org.testng.Assert;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.Test;
 
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static io.restassured.RestAssured.given;
 
@@ -89,5 +93,33 @@ public class SpotifyAPITests extends BaseAPITest {
                 .extract().body().as(TrackRequest.class);
 
         Assert.assertNotNull(deleteTrackFromPlaylistResponse.getSnapshot_id());
+    }
+
+    @AfterSuite
+    public void getAllPlaylists() {
+        var getAllPlaylistsResponse = given()
+                .spec(playlistSpec.getAllPlaylistSpec())
+                .when()
+                .get()
+                .then()
+                .spec(playlistSpec.getResponseSpecCheckOk())
+                .extract().jsonPath();
+
+        List<String> playlistIds = new ArrayList<>();
+
+        List<PlaylistResponse> playlists = getAllPlaylistsResponse.getList("items", PlaylistResponse.class);
+        for ( PlaylistResponse playlist : playlists) {
+            String id = playlist.getId();
+            playlistIds.add(id);
+        }
+
+        for(String playlistId : playlistIds) {
+            given()
+                    .spec(playlistSpec.getRemovePlaylistSpec(playlistId))
+                    .when()
+                    .delete()
+                    .then()
+                    .spec(playlistSpec.getResponseSpecCheckOk());
+        }
     }
 }
