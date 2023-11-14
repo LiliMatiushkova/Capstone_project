@@ -20,6 +20,9 @@ public class BaseSpec {
             .setBaseUri(BASE_URL)
             .setContentType(ContentType.JSON)
             .addQueryParams(Authentication.getAuthenticationParameters());
+    protected RequestSpecBuilder baseRequestBuilderWithoutContentType = new RequestSpecBuilder()
+            .setBaseUri(BASE_URL)
+            .addQueryParams(Authentication.getAuthenticationParameters());
 
     public ResponseSpecification getResponseSpecCheckCreated() {
         return new ResponseSpecBuilder()
@@ -30,6 +33,12 @@ public class BaseSpec {
     public ResponseSpecification getResponseSpecCheckOk() {
         return new ResponseSpecBuilder()
                 .expectStatusCode(HttpURLConnection.HTTP_OK)
+                .build();
+    }
+    public ResponseSpecification getResponseSpecCheckGetOk() {
+        return new ResponseSpecBuilder()
+                .expectStatusCode(HttpURLConnection.HTTP_OK)
+                .expectContentType(ContentType.JSON)
                 .build();
     }
     public ResponseSpecification getResponseSpecCheckDeleted() {

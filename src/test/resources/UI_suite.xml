@@ -1,0 +1,8 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="UI suite">
+    <test name="ui testing">
+        <classes>
+            <class name="org.project.SpotifyUITests" />
+        </classes>
+    </test>
+</suite>

@@ -31,10 +31,11 @@ public class PlaylistPage extends BasePage {
         return songsList;
     }
     public WebElement getSongFromPlaylist(String trackName) {
+        waitForElements(titleColumn).isDisplayed();
         List<WebElement> songsList = driver.findElements(By.xpath(listOfSongs));
         return waitForElements(songsList
                 .stream()
-                .filter(p -> p.getText().equals(trackName))
+                .filter(p -> p.getText().contains(trackName))
                 .findFirst().get());
     }
 }

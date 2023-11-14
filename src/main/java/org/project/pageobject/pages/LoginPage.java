@@ -25,7 +25,7 @@ public class LoginPage extends BasePage {
     }
 
     public HomePage successLogin() {
-        logInButton.click();
+        waitForElements(logInButton).click();
         return new HomePage(driver);
     }
     public LoginPage typeCredentials(String userName, String password) {
@@ -34,12 +34,17 @@ public class LoginPage extends BasePage {
         this.passwordField.sendKeys(password);
         return this;
     }
+    public LoginPage typePasswordForSecondLogin(String password) {
+        waitForElements(passwordField);
+        this.passwordField.sendKeys(password);
+        return this;
+    }
     public String getErrorForClearNameField() {
-        userNameField.sendKeys(Keys.CONTROL,"a",Keys.DELETE);
+        userNameField.sendKeys(Keys.BACK_SPACE);
         return waitForElements(userNameError).getText();
     }
     public String getErrorForClearPasswordField() {
-        passwordField.sendKeys(Keys.CONTROL,"a",Keys.DELETE);
+        passwordField.sendKeys(Keys.BACK_SPACE);
         return waitForElements(passwordError).getText();
     }
     public String getErrorForIncorrectCredentials() {

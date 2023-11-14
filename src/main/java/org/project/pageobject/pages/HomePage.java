@@ -1,7 +1,6 @@
 package org.project.pageobject.pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -16,8 +15,6 @@ public class HomePage extends BasePage {
     private WebElement profileIcon;
     @FindBy(xpath = "//div[@data-testid=\"user-widget-menu\"]/ul[@role=\"menu\"]//span[contains(text(),'Profile')]")
     private WebElement profileOption;
-    @FindBy(xpath = "//div[@data-testid=\"user-widget-menu\"]/ul[@role=\"menu\"]//span[contains(text(),'Log out')]")
-    private WebElement logOutButton;
     @FindBy(xpath = "//span[contains(text(),'Create playlist')]/parent::button")
     private WebElement createPlaylistButton;
     @FindBy(xpath = "//div[@data-encore-id=\"listRow\"]//div/p/span")
@@ -41,6 +38,10 @@ public class HomePage extends BasePage {
     private WebElement deleteButton;
     @FindBy(xpath = "//div[@class=\"notistack-CollapseWrapper\"]//div/span[contains(text(),'Removed from Your Library.')]")
     private WebElement removedFromYourLibrarySnackbar;
+    @FindBy(xpath = "//span[contains(text(),'Home')]")
+    private WebElement homeIcon;
+    @FindBy(xpath = "//div[@data-testid=\"user-widget-menu\"]/ul[@role=\"menu\"]//span[contains(text(),'Log out')]")
+    private WebElement logOutButton;
     private String listOfPlaylists = "//ul[@aria-label=\"Your Library\"]//li[@role=\"listitem\" and @draggable]";
 
 
@@ -53,18 +54,14 @@ public class HomePage extends BasePage {
         waitForElements(profileOption).click();
         return new ProfileModule(driver);
     }
-    public StartPage logOut() {
-        waitForElements(profileIcon).click();
-        waitForElements(logOutButton).click();
-        return new StartPage(driver);
-    }
     public HomePage createPlaylist() {
         waitForElements(createPlaylistButton).click();
         return this;
     }
     public String getPlaylistNameFromList() {
-        waitForElements(myPlaylistInList).sendKeys(Keys.CONTROL,"r"); //to wait for update
-        return myPlaylistInList.getText();
+        waitForElements(homeIcon).isDisplayed();
+        driver.navigate().refresh();
+        return waitForElements(myPlaylistInList).getText();
     }
     public String getPlaylistNameFromMainPage() {
         return waitForElements(myPlaylistFromPlaylistPage).getText();
@@ -105,6 +102,11 @@ public class HomePage extends BasePage {
         getContextMenuOptionOnPlaylist(optionName).click();
         return this;
     }
+    public StartPage logOut() {
+        waitForElements(profileIcon).click();
+        waitForElements(logOutButton).click();
+        return new StartPage(driver);
+    }
     public HomePage clickDeleteInConfirmationPopup() {
         waitForElements(deleteConfirmationPopup);
         deleteButton.click();
@@ -120,5 +122,4 @@ public class HomePage extends BasePage {
                 .stream()
                 .findFirst().get());
     }
-
 }

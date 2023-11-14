@@ -1,8 +1,12 @@
 package org.project.dto;
 
-import io.qameta.allure.internal.shadowed.jackson.annotation.JsonIgnoreProperties;
-import lombok.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
+import lombok.extern.jackson.Jacksonized;
+
+@Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Builder
 @Setter
@@ -12,6 +16,6 @@ import lombok.*;
 public class Playlist {
     String name;
     String description;
+    @JsonProperty("public")
     Boolean Public;
-    //Boolean collaborative;
 }
