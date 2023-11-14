@@ -47,6 +47,8 @@ public class SpotifyEndToEndTests {
         PlaylistResponse createdPlaylist = apiTest.createPlaylistAPI(playlistName, playlistDescription);
         String playlistId = createdPlaylist.getId();
         apiTest.updatePlaylistAPI(updatedPlaylistName, updatedPlaylistDescription, updatedPublic, playlistId);
+        String updatedPlaylistName = apiTest.getPlaylistAPI(playlistId).getName(); //to check if playlist details are updated
+        System.out.println(updatedPlaylistName);
         uiTest.login();
         HomePage homePage = new HomePage(uiTest.driver);
         homePage

@@ -44,7 +44,8 @@ public class SpotifyAPITests extends BaseAPITest {
                 .then()
                 .spec(playlistSpec.getResponseSpecCheckGetOk())
                 .extract().body().as(PlaylistResponse.class);
-        System.out.println(getResponse.getName());
+
+        Assert.assertEquals(playlistName, getResponse.getName());
     }
 
     @Test

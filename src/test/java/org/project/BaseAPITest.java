@@ -43,6 +43,15 @@ public class BaseAPITest {
                 .then()
                 .extract().jsonPath();
     }
+    public PlaylistResponse getPlaylistAPI(String playlistId) {
+        return given()
+                .spec(playlistSpec.getPlaylistGetSpec(playlistId))
+                .when()
+                .get()
+                .then()
+                .spec(playlistSpec.getResponseSpecCheckGetOk())
+                .extract().body().as(PlaylistResponse.class);
+    }
     public Track createTrack(String trackUri) {
         Track track = new Track();
         ArrayList<String> uris = new ArrayList<>();
