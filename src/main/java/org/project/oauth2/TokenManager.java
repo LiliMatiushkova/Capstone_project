@@ -2,6 +2,8 @@ package org.project.oauth2;
 
 import io.restassured.response.Response;
 import org.project.holder.PropertyHolder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.Instant;
 import java.util.HashMap;
@@ -11,6 +13,7 @@ import static org.project.specifications.BaseSpec.getAccountRequestSpec;
 import static org.project.specifications.BaseSpec.getResponseSpec;
 
 public class TokenManager {
+    private static final Logger logger = LoggerFactory.getLogger(TokenManager.class);
     static PropertyHolder prop = new PropertyHolder();
     static String clientId = prop.readProperty("clientId");
     static String clientSecret = prop.readProperty("clientSecret");
@@ -24,13 +27,13 @@ public class TokenManager {
     public static String getToken(){
         try{
             if(access_token == null || Instant.now().isAfter(expiry_time)){
-                System.out.println("Renewing token ...");
+                logger.info("Renewing token ...");
                 Response response = renewToken();
                 access_token = response.path("access_token");
                 int expiryDurationInSeconds = response.path("expires_in");
                 expiry_time = Instant.now().plusSeconds(expiryDurationInSeconds - 3600);
             } else{
-                System.out.println("Token is good to use");
+                logger.info("Token is good to use");
             }
         }
         catch (Exception e){

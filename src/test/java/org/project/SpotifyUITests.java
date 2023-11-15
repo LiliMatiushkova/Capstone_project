@@ -16,11 +16,11 @@ import java.util.List;
 public class SpotifyUITests extends BaseUITest {
     @BeforeMethod
     public void setUpDriver() {
-        setUp();
+        setUpDriverAndBrowser();
     }
     @AfterMethod
     public void closeDriver() {
-        close();
+        closeDriverAndBrowser();
     }
 
     @Test
@@ -69,7 +69,7 @@ public class SpotifyUITests extends BaseUITest {
     @Test
     public void createPlaylistTest() {
         try {
-            login();
+            loginWithValidCredentials();
             HomePage homePage = new HomePage(driver);
             String playlistNameFromList = homePage
                     .createPlaylist()
@@ -87,7 +87,7 @@ public class SpotifyUITests extends BaseUITest {
 
     @Test
     public void editDetailsOfPlaylistTest() {
-        login();
+        loginWithValidCredentials();
         HomePage homePage = new HomePage(driver);
         String editedPlaylistNameFromList = homePage
                 .createNewPlaylist("Create a new playlist")
@@ -102,7 +102,7 @@ public class SpotifyUITests extends BaseUITest {
     @Test
     public void searchAndAddToPlaylistTest() {
         String trackName = "I Will Always Love You - Film Version";
-        login();
+        loginWithValidCredentials();
         HomePage homePage = new HomePage(driver);
         String nameOfAddedTrackInPlaylist = homePage
                 .createNewPlaylist("Create a new playlist")
@@ -117,7 +117,7 @@ public class SpotifyUITests extends BaseUITest {
     @Test
     public void removeSongFromPlaylist() {
         String trackName = "Greatest Love of All";
-        login();
+        var homePage = loginWithValidCredentials();
         createNewPlaylist();
         addSongToPlaylist("Whitney Houston", trackName, "My Playlist");
         PlaylistPage playlistPage = new PlaylistPage(driver);
@@ -130,7 +130,7 @@ public class SpotifyUITests extends BaseUITest {
     @Test
     public void deletePlaylistTest() {
         String expectedSnackbarText = "Removed from Your Library.";
-        login();
+        loginWithValidCredentials();
         createNewPlaylist();
         HomePage homePage = new HomePage(driver);
         String snackbarText = homePage

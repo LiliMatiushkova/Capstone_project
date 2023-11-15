@@ -3,23 +3,19 @@ package org.project;
 import io.restassured.path.json.JsonPath;
 import org.project.dto.*;
 import org.project.specifications.PlaylistSpec;
+
 import java.util.*;
 
 import static io.restassured.RestAssured.given;
 
-public class BaseAPITest {
+public class BaseAPITest extends BaseTest{
     PlaylistSpec playlistSpec = new PlaylistSpec();
 
-
-    public Playlist createPlaylist(String name, String description) {
-        Playlist playlist = new Playlist();
-        playlist.setName(name);
-        playlist.setDescription(description);
-        playlist.setPublic(Boolean.FALSE);
-        return playlist;
-    }
     public PlaylistResponse createPlaylistAPI(String name, String description) {
-        Playlist expectedPlaylist = createPlaylist(name, description);
+        var expectedPlaylist = Playlist.builder()
+                .name(name)
+                .description(description)
+                .build();
         return given()
                 .spec(playlistSpec.getPlaylistCreateSpec(expectedPlaylist))
                 .when()
@@ -27,15 +23,9 @@ public class BaseAPITest {
                 .then()
                 .extract().body().as(PlaylistResponse.class);
     }
-    public Playlist updatePlaylist(String updatedName, String updatedDescription, Boolean Public) {
-        Playlist playlist = new Playlist();
-        playlist.setName(updatedName);
-        playlist.setDescription(updatedDescription);
-        playlist.setPublic(Public);
-        return playlist;
-    }
-    public JsonPath updatePlaylistAPI(String updatedPlaylistName, String updatedPlaylistDescription, Boolean Public, String playlistId) {
-        Playlist newPlaylist = updatePlaylist(updatedPlaylistName, updatedPlaylistDescription, Public);
+
+    public JsonPath updatePlaylistRest(String updatedPlaylistName, String updatedPlaylistDescription, Boolean isPublic, String playlistId) {
+        var newPlaylist = new Playlist(updatedPlaylistName, updatedPlaylistDescription, isPublic);
         return given()
                 .spec(playlistSpec.getPlaylistUpdateSpec(playlistId, newPlaylist))
                 .when()
@@ -43,7 +33,8 @@ public class BaseAPITest {
                 .then()
                 .extract().jsonPath();
     }
-    public PlaylistResponse getPlaylistAPI(String playlistId) {
+
+    public PlaylistResponse getPlaylistRest(String playlistId) {
         return given()
                 .spec(playlistSpec.getPlaylistGetSpec(playlistId))
                 .when()

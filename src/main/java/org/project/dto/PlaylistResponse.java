@@ -16,6 +16,6 @@ public class PlaylistResponse {
     String name;
     String description;
     @JsonProperty("public")
-    Boolean Public;
+    Boolean isPublic;
     String id;
 }

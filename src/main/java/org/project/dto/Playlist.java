@@ -17,5 +17,5 @@ public class Playlist {
     String name;
     String description;
     @JsonProperty("public")
-    Boolean Public;
+    Boolean isPublic;
 }
